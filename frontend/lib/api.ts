@@ -8,6 +8,8 @@ if (!baseUrl) {
 }
 
 async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> {
+  if (!baseUrl) throw new Error("Missing NEXT_PUBLIC_API_URL in .env.local");
+
   const res = await fetch(`${baseUrl}${path}`, {
     ...init,
     headers: {
@@ -29,7 +31,16 @@ async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> {
   return res.json() as Promise<T>;
 }
 
+export type DealRisk = {
+  dealIdOnChain: number;
+  riskScore: number | null;
+  riskLevel: "LOW" | "MEDIUM" | "HIGH" | null;
+  riskReasons: string[] | null; // backend Json field
+  riskUpdatedAt: string | null;
+};
+
 export const api = {
+  // Deals
   listDeals: () => apiFetch<Deal[]>("/deals"),
   getDeal: (dealIdOnChain: number) => apiFetch<Deal>(`/deals/${dealIdOnChain}`),
 
@@ -46,6 +57,7 @@ export const api = {
       body: JSON.stringify(body),
     }),
 
+  // Admin (backend signs tx)
   adminRelease: (dealIdOnChain: number) =>
     apiFetch<{ ok: boolean; txHash?: string }>(`/admin/release`, {
       method: "POST",
@@ -56,5 +68,14 @@ export const api = {
     apiFetch<{ ok: boolean; txHash?: string }>(`/admin/refund`, {
       method: "POST",
       body: JSON.stringify({ dealIdOnChain }),
+    }),
+
+  // ✅ Risk scoring
+  getRisk: (dealIdOnChain: number) => apiFetch<DealRisk>(`/deals/${dealIdOnChain}/risk`),
+
+  rescoreRisk: (dealIdOnChain: number) =>
+    apiFetch<any>(`/deals/${dealIdOnChain}/risk/rescore`, {
+      method: "POST",
+      body: JSON.stringify({}),
     }),
 };
