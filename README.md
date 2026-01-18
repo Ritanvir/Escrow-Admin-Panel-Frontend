@@ -12,11 +12,11 @@ Database (PostgreSQL + Prisma)
 
 AI (LangChain + OpenAI) for risk analysis
 
-💡 Real-life idea: Like Fiverr / Upwork escrow — client funds first, seller completes work, admin releases or refunds.
-🤖 AI adds fraud / risk detection before admin action.
+ Real-life idea: Like Fiverr / Upwork escrow — client funds first, seller completes work, admin releases or refunds.
+ AI adds fraud / risk detection before admin action.
 
-🚀 Features
-🔗 On-chain (Wallet actions)
+ Features
+ On-chain (Wallet actions)
 
 Fund (Client)
 Client approves ERC20 token and locks funds in escrow contract.
@@ -24,7 +24,7 @@ Client approves ERC20 token and locks funds in escrow contract.
 Mark Completed (Seller)
 Seller marks work as completed (no funds move yet).
 
-🛠 Admin (Backend actions)
+Admin (Backend actions)
 
 Admin Release
 Backend admin wallet releases funds to seller (only if status = COMPLETED).
@@ -32,7 +32,7 @@ Backend admin wallet releases funds to seller (only if status = COMPLETED).
 Admin Refund
 Backend admin wallet refunds client (FUNDED / COMPLETED / DISPUTED).
 
-⚠️ Admin private key is never exposed to frontend.
+ Admin private key is never exposed to frontend.
 
 🗄 Deal Tracking (Database)
 
@@ -50,7 +50,7 @@ release
 
 refund
 
-🤖 AI Risk Scoring (NEW 🔥)
+ AI Risk Scoring 
 
 Before admin releases or refunds funds, the system can AI-score the deal.
 
